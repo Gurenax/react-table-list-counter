@@ -1,29 +1,11 @@
 import React, { Component } from 'react'
 import './bootstrap-4.0.0-beta.2-dist/css/bootstrap.min.css'
 import './App.css'
+import TableDataCounter from './components/TableDataCounter';
 
 class App extends Component {
   state = {
-    listData: [
-      {
-        id: 1,
-        name: 'Apple',
-        quantity: 0,
-        rating: 0
-      },
-      {
-        id: 2,
-        name: 'Banana',
-        quantity: 0,
-        rating: 0
-      },
-      {
-        id: 3,
-        name: 'Carrot',
-        quantity: 0,
-        rating: 0
-      }
-    ]
+    listData: null
   }
 
   /*
@@ -74,6 +56,32 @@ class App extends Component {
     })
   }
 
+  componentDidMount() {
+    // Initialise data
+    this.setState({
+      listData: [
+        {
+          id: 1,
+          name: 'Apple',
+          quantity: 0,
+          rating: 0
+        },
+        {
+          id: 2,
+          name: 'Banana',
+          quantity: 0,
+          rating: 0
+        },
+        {
+          id: 3,
+          name: 'Carrot',
+          quantity: 0,
+          rating: 0
+        }
+      ]
+    })
+  }
+
   render() {
     const { listData } = this.state
 
@@ -82,7 +90,9 @@ class App extends Component {
         <div className="container">
           <h1>React Table List with Counter</h1>
           <div className="table-responsive">
-            <table className="table">
+            {
+              !!listData ? (
+                <table className="table">
               <thead>
                 <tr>
                   <th scope="col">#</th>
@@ -97,21 +107,15 @@ class App extends Component {
                     <tr key={data.id}>
                       <th scope="row">{index+1}</th>
                       <td>{data.name}</td>
-                      <td className="nowrap">
-                        <button className="btn mr-2" onClick={e => this.handleCounterQuantity(data.id, 'decrement')}>-</button>
-                        {data.quantity}
-                        <button className="btn ml-2" onClick={e => this.handleCounterQuantity(data.id, 'increment')}>+</button>
-                      </td>
-                      <td className="nowrap">
-                        <button className="btn mr-2" onClick={e => this.handleCounterRating(data.id, 'decrement')}>-</button>
-                        {data.rating}
-                        <button className="btn ml-2" onClick={e => this.handleCounterRating(data.id, 'increment')}>+</button>
-                      </td>
+                      <TableDataCounter id={data.id} count={data.quantity} handleCounter={this.handleCounterQuantity} />
+                      <TableDataCounter id={data.id} count={data.rating} handleCounter={this.handleCounterRating} />  
                     </tr>
                   ))
                 }
               </tbody>
             </table>
+              )  : <div>Loading...</div>
+            }
           </div>
         </div>
       </div>
