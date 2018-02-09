@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import logo from './logo.svg'
 import './bootstrap-4.0.0-beta.2-dist/css/bootstrap.min.css'
 import './App.css'
 
@@ -27,15 +26,52 @@ class App extends Component {
     ]
   }
 
-  handleDecrementQuantity = id => {
-    alert(id)
-    // this.setState(prevState => ({
-      
-    // }))
+  /*
+  * Increment or Decrement Quantity
+  */
+  handleCounterQuantity = (id, operation) => {
+    this.setState(prevState => {
+      const listData = prevState.listData.map(data =>{
+        if(data.id === id) {
+          switch(operation) {
+            case 'increment':
+              data.quantity += 1
+              break
+            case 'decrement':
+              data.quantity >= 1 ? data.quantity -= 1 : 0
+              break
+          }
+        }
+        return data
+      })
+      return {
+        listData
+      }
+    })
   }
 
-  handleIncrementQuantity = id => {
-    alert(id)
+  /*
+  * Increment or Decrement Rating
+  */
+  handleCounterRating = (id, operation) => {
+    this.setState(prevState => {
+      const listData = prevState.listData.map(data =>{
+        if(data.id === id) {
+          switch(operation) {
+            case 'increment':
+              data.rating += 1
+              break
+            case 'decrement':
+              data.rating >= 1 ? data.rating -= 1 : 0
+              break
+          }
+        }
+        return data
+      })
+      return {
+        listData
+      }
+    })
   }
 
   render() {
@@ -59,17 +95,17 @@ class App extends Component {
                 {
                   listData.map( (data, index) => (
                     <tr key={data.id}>
-                      <th scope="row">{index}</th>
+                      <th scope="row">{index+1}</th>
                       <td>{data.name}</td>
                       <td className="nowrap">
-                        <button className="btn mr-2" onClick={e => this.handleDecrementQuantity(data.id)}>-</button>
+                        <button className="btn mr-2" onClick={e => this.handleCounterQuantity(data.id, 'decrement')}>-</button>
                         {data.quantity}
-                        <button className="btn ml-2" onClick={e => this.handleIncrementQuantity(data.id)}>+</button>
+                        <button className="btn ml-2" onClick={e => this.handleCounterQuantity(data.id, 'increment')}>+</button>
                       </td>
                       <td className="nowrap">
-                        <button className="btn mr-2">-</button>
+                        <button className="btn mr-2" onClick={e => this.handleCounterRating(data.id, 'decrement')}>-</button>
                         {data.rating}
-                        <button className="btn ml-2">+</button>
+                        <button className="btn ml-2" onClick={e => this.handleCounterRating(data.id, 'increment')}>+</button>
                       </td>
                     </tr>
                   ))
