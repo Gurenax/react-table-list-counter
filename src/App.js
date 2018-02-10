@@ -20,7 +20,9 @@ class App extends Component {
               data.quantity += 1
               break
             case 'decrement':
-              data.quantity >= 1 ? data.quantity -= 1 : 0
+              data.quantity = data.quantity >= 1 ? data.quantity - 1 : 0
+              break
+            default:
               break
           }
         }
@@ -44,7 +46,9 @@ class App extends Component {
               data.rating += 1
               break
             case 'decrement':
-              data.rating >= 1 ? data.rating -= 1 : 0
+              data.rating = data.rating >= 1 ? data.rating - 1 : 0
+              break
+            default:
               break
           }
         }
